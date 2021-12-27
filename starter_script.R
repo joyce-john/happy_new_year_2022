@@ -25,7 +25,12 @@ df <- data.frame("x" = c(33, 82, 87, 87, 81, # start H
                  "symbol" = c(rep("H", 15),
                               rep("A", 10)))
 
+# sequential plotting order for points
 df$point_number <- seq(1, nrow(df))
+
+# calculate values for drawing a smoothed loess line outside of ggplot
+# inspiration from https://stackoverflow.com/questions/60856938/animate-points-and-regression-line-along-date-with-gganimate
+df$smoothed_y_values <- predict(loess(y ~ x, df))
 
 # sample plot
 plot(df)
@@ -54,3 +59,4 @@ ggplot(data = df, aes(x = x, y = y)) +
 animate(animation)
 
 ## TODO: add another class of points with a an alpha of 0.00 to serve as invisible connectors between letters
+## ALTERNATE IDEA: just spell out "Happy New Year" in geom_text(), and animate geom_point() stars shooting out of the center like fireworks with geom_line() trails
