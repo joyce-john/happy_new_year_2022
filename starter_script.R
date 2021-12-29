@@ -10,18 +10,25 @@ df <- data.frame("greeting" = c("H",
                                 "A",
                                 "P",
                                 "P",
-                                "Y",
-                                " N",
+                                "Y ",
+                                "N",
                                 "E",
-                                "W")
+                                "W",
+                                "Y",
+                                "E",
+                                "A",
+                                "R")
                  )
 
 # sequential plotting order for points
 df$frame_number <- seq(1, nrow(df))
 
 # coordinate locations for text. leaving some empty space on the edges of the frame as padding
-df$x <- seq(from = 0.2, to = 0.8, length.out = nrow(df))
-df$y <- seq(from = 0.2, to = 0.8, length.out = nrow(df))
+df$x <- c(seq(from = 0.2, to = 0.8, length.out = 8), # x axis for HAPPY NEW
+          seq(from = 0.3, to = 0.7, length.out = 4)) # x axis for YEAR
+                    
+df$y <- c(rep(0.6, 8), # y axis for HAPPY NEW
+          rep(0.4, 4)) # y axis for YEAR
 
 animation <-
 ggplot(data = df, aes(x = x, y = y)) +
