@@ -35,7 +35,7 @@ ggplot(data = df, aes(x = x, y = y)) +
   geom_text(aes(label = greeting, group = frame_number), size = 12) + 
   xlim(0,1) +
   ylim(0,1) +
-  transition_reveal(along = frame_number) +
+  transition_states(along = frame_number) +
   shadow_mark()
 
 animate(animation)
