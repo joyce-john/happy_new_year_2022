@@ -40,10 +40,11 @@ ggplot(data = df, aes(x = x, y = y)) +
   xlim(0,1) +
   ylim(0,1) +
   scale_color_discrete(wes_palette("Darjeeling1")) +
+  # theme_void() #uncomment when done with other steps
   theme(legend.position = "none") +
   transition_reveal(along = frame_number)
 
 animate(animation, nframes = 20)
 
-## TODO: add another class of points with a an alpha of 0.00 to serve as invisible connectors between letters
-## ALTERNATE IDEA: just spell out "Happy New Year" in geom_text(), and animate geom_point() stars shooting out of the center like fireworks with geom_line() trails
+## TODO: animate geom_point() stars shooting out of the center like fireworks with geom_line() or geom_path() trails
+## stars can be mapped with random colors from the palette
