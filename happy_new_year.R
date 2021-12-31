@@ -73,3 +73,9 @@ animation <-
 
 # animate the plot
 animate(animation, nframes = 100)
+
+# save a copy of the animation
+anim_save("happy_new_year.gif")
+
+# or specify resolution
+# anim_save("happy_new_year.gif", width = 1000, height = 1000)
