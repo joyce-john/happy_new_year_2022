@@ -89,16 +89,18 @@ df3$text_color <- rep(1, nrow(df3))
 df4 <-
   rbind(df, df3)
 
-df4$point_alpha <- ifelse(df4$greeting == "", 1, 0)
+df4$circle_alpha_rule <- ifelse(df4$greeting == "", 1, 0)
+df4$circle_color_rule <- ifelse(df4$greeting == "", "red", NA)
 
 animation3 <-
   ggplot(data = df4, aes(x = x, y = y)) +
   geom_text(aes(label = greeting, group = frame_number, color = factor(text_color)), size = 12) + 
-  geom_point(aes(alpha = point_alpha)) +
-  geom_path(aes(alpha = point_alpha)) +
+  geom_point(aes(alpha = circle_alpha_rule)) +
+  geom_path(aes(alpha = circle_alpha_rule)) +
   xlim(0,1) +
   ylim(0,1) +
   scale_color_discrete(wes_palette("Darjeeling1")) +
+  scale_alpha(range = c(0, 1)) + # default alpha scale is actually c(0.1, 1), meaning values of 0 were not completely invisible for geom_path()
   # theme_void() #uncomment when done with other steps
   theme(legend.position = "none") +
   transition_reveal(along = frame_number)
