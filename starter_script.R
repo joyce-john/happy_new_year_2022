@@ -80,11 +80,11 @@ circleFun <- function(center = c(0,0),diameter = 1, npoints = 100){
 }
 
 df3 <-
-circleFun(center = c(0.5, 0.5), diameter = 0.75, npoints = 50)
+circleFun(center = c(0.5, 0.52), diameter = 0.80, npoints = 50)
 
 df3$greeting <- rep("", nrow(df3))
 df3$frame_number <- seq(from = nrow(df) + 1, to = (nrow(df) + nrow(df3)), by = 1)
-df3$text_color <- rep(1, nrow(df3))
+df3$text_color <- rep(seq(from = 1, to = 5), ceiling(nrow(df3)/5))[1:nrow(df3)] #rep(1, nrow(df3))
 
 df4 <-
   rbind(df, df3)
@@ -95,14 +95,14 @@ df4$circle_color_rule <- ifelse(df4$greeting == "", "red", NA)
 animation3 <-
   ggplot(data = df4, aes(x = x, y = y)) +
   geom_text(aes(label = greeting, group = frame_number, color = factor(text_color)), size = 12) + 
-  geom_point(aes(alpha = circle_alpha_rule)) +
-  geom_path(aes(alpha = circle_alpha_rule)) +
+  geom_point(aes(alpha = circle_alpha_rule, color = factor(text_color))) +
+  geom_path(aes(alpha = circle_alpha_rule, color = factor(text_color))) +
   xlim(0,1) +
   ylim(0,1) +
   scale_color_discrete(wes_palette("Darjeeling1")) +
   scale_alpha(range = c(0, 1)) + # default alpha scale is actually c(0.1, 1), meaning values of 0 were not completely invisible for geom_path()
-  # theme_void() #uncomment when done with other steps
+  theme_void() + #uncomment when done with other steps
   theme(legend.position = "none") +
   transition_reveal(along = frame_number)
 
-animate(animation3, nframes = 20)
+animate(animation3, nframes = 100)
