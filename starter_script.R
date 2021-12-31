@@ -50,3 +50,17 @@ animate(animation, nframes = 20)
 ## stars can be mapped with random colors from the palette
 
 plot(seq(0.5, 1, 0.01)^5 + 0.5, (seq(0.5, 1, 0.01))) # prototype sequence for streaming star path
+
+df2 <- data.frame("x" = c(seq(0.5, 1, 0.03)^5 + 0.5),
+                  "y" = c(seq(0.5, 1, 0.03)),
+                  "star_group" = 1)
+
+df2$frame_number <- seq(1, nrow(df2))
+
+animation2 <-
+ggplot(df2, aes(x,y)) +  
+  geom_path() +
+  geom_point() +
+  transition_reveal(along = frame_number)
+
+animate(animation2)
