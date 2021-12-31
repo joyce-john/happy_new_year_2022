@@ -51,16 +51,19 @@ animate(animation, nframes = 20)
 
 plot(seq(0.5, 1, 0.01)^5 + 0.5, (seq(0.5, 1, 0.01))) # prototype sequence for streaming star path
 
-df2 <- data.frame("x" = c(seq(0.5, 1, 0.03)^5 + 0.5),
-                  "y" = c(seq(0.5, 1, 0.03)),
-                  "star_group" = 1)
+df2 <- data.frame("x" = c((seq(0.5, 1, 0.03)^5 + 0.5),
+                          (seq(0.5, 0, 0.03)^5 + 1.5)),
+                  "y" = c(seq(0.5, 1, 0.03),
+                          seq(0.5, 1, 0.03)),
+                  "star_group" = c(rep(1,17),
+                                   rep(2,17)))
 
 df2$frame_number <- seq(1, nrow(df2))
 
 animation2 <-
-ggplot(df2, aes(x,y)) +  
-  geom_path() +
-  geom_point() +
+ggplot(df2, aes(x = x, y = y)) +  
+  geom_path(group = star_group) +
+  geom_point(group = star_group) +
   transition_reveal(along = frame_number)
 
-animate(animation2)
+animate(animation2, nframes = 20)
