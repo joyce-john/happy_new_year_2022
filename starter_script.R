@@ -48,3 +48,5 @@ animate(animation, nframes = 20)
 
 ## TODO: animate geom_point() stars shooting out of the center like fireworks with geom_line() or geom_path() trails
 ## stars can be mapped with random colors from the palette
+
+plot(seq(0.5, 1, 0.01)^5 + 0.5, (seq(0.5, 1, 0.01))) # prototype sequence for streaming star path
