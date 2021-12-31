@@ -52,7 +52,7 @@ animate(animation, nframes = 20)
 plot(seq(0.5, 1, 0.01)^5 + 0.5, (seq(0.5, 1, 0.01))) # prototype sequence for streaming star path
 
 df2 <- data.frame("x" = c((seq(0.5, 1, 0.03)^5 + 0.5),
-                          (seq(0.5, 0, 0.03)^5 + 1.5)),
+                          (seq(0.5, -1, -0.03)^5 + 0.6)),
                   "y" = c(seq(0.5, 1, 0.03),
                           seq(0.5, 1, 0.03)),
                   "star_group" = c(rep(1,17),
@@ -61,9 +61,46 @@ df2 <- data.frame("x" = c((seq(0.5, 1, 0.03)^5 + 0.5),
 df2$frame_number <- seq(1, nrow(df2))
 
 animation2 <-
-ggplot(df2, aes(x = x, y = y)) +  
-  geom_path(group = star_group) +
-  geom_point(group = star_group) +
+ggplot(df2, aes(x = x, y = y, group = factor(star_group))) +  
+  geom_path() +
+  geom_point() +
   transition_reveal(along = frame_number)
 
 animate(animation2, nframes = 20)
+
+
+# circle function from stackoverflow user joran
+# https://stackoverflow.com/questions/6862742/draw-a-circle-with-ggplot2
+circleFun <- function(center = c(0,0),diameter = 1, npoints = 100){
+  r = diameter / 2
+  tt <- seq(0,2*pi,length.out = npoints)
+  xx <- center[1] + r * cos(tt)
+  yy <- center[2] + r * sin(tt)
+  return(data.frame(x = xx, y = yy))
+}
+
+df3 <-
+circleFun(center = c(0.5, 0.5), diameter = 0.75, npoints = 50)
+
+df3$greeting <- rep("", nrow(df3))
+df3$frame_number <- seq(from = nrow(df) + 1, to = (nrow(df) + nrow(df3)), by = 1)
+df3$text_color <- rep(1, nrow(df3))
+
+df4 <-
+  rbind(df, df3)
+
+df4$point_alpha <- ifelse(df4$greeting == "", 1, 0)
+
+animation3 <-
+  ggplot(data = df4, aes(x = x, y = y)) +
+  geom_text(aes(label = greeting, group = frame_number, color = factor(text_color)), size = 12) + 
+  geom_point(aes(alpha = point_alpha)) +
+  geom_path(aes(alpha = point_alpha)) +
+  xlim(0,1) +
+  ylim(0,1) +
+  scale_color_discrete(wes_palette("Darjeeling1")) +
+  # theme_void() #uncomment when done with other steps
+  theme(legend.position = "none") +
+  transition_reveal(along = frame_number)
+
+animate(animation3, nframes = 20)
