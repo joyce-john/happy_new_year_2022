@@ -78,4 +78,4 @@ animate(animation, nframes = 100)
 anim_save("happy_new_year.gif")
 
 # or specify resolution
-# anim_save("happy_new_year.gif", width = 1000, height = 1000)
+# anim_save("happy_new_year.gif", animation, width = 1000, height = 1000)
